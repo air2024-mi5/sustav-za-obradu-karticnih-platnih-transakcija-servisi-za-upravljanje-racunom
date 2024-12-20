@@ -22,12 +22,16 @@ public class AuthenticationService {
 
     public String authenticate(String username, String password) {
         User registeredUser = userRepository.findByUsername(username)
-                .orElseThrow(()->new AuthenticationException("User not found"));
+                .orElseThrow(() -> new AuthenticationException("User not found"));
 
-        if(!hasher.verifyHash(password,registeredUser.getPassword())){
+        if (!hasher.verifyHash(password, registeredUser.getPassword())) {
             throw new AuthenticationException("Invalid credentials");
         }
 
-        return jwtUtil.generateToken(username,registeredUser.getRole().getName());
+        if (registeredUser.isBlocked()) {
+            throw new AuthenticationException("User is blocked");
+        }
+
+        return jwtUtil.generateToken(username, registeredUser.getRole().getName());
     }
 }

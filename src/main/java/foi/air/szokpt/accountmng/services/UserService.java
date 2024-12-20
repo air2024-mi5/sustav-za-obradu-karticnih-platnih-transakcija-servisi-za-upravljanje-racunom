@@ -70,6 +70,7 @@ public class UserService {
         existingUser.setUsername(newUserData.getUsername());
         assignRoleToUser(existingUser, newUserData.getRole().getName());
         existingUser.setPassword(hasher.hashText(newUserData.getPassword()));
+        existingUser.setBlocked(newUserData.isBlocked());
         userRepository.save(existingUser);
     }
 

@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "first_name")
@@ -25,14 +25,17 @@ public class User {
 
     private String password;
 
-    public User( String firstName, String lastName, UserRole role,
-                String email, String username, String password) {
+    private boolean blocked;
+
+    public User(String firstName, String lastName, UserRole role,
+                String email, String username, String password, boolean blocked) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
         this.email = email;
         this.username = username;
         this.password = password;
+        this.blocked = blocked;
     }
 
     public User() {
@@ -92,6 +95,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 
 }
